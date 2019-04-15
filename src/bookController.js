@@ -1,8 +1,7 @@
-const bookRepository = require("./bookRepository");
-const bookService = require('./bookService');
 
-module.exports = {
-    async createOrUpdate(req, res, next) {
+module.exports = function({bookRepository, bookService}){
+
+    async function createOrUpdate(req, res, next) {
         const {title, authors, isbn, description} = req.body;
         try {
             await bookService.createOrUpdate({title, authors, isbn, description});
@@ -10,8 +9,9 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    },
-    async details(req, res, next) {
+    }
+
+    async function details(req, res, next) {
         try {
             const isbn = req.params.isbn;
             const book = await bookRepository.findOne(isbn);
@@ -19,8 +19,9 @@ module.exports = {
         } catch(e) {
             next(e);
         }
-    },
-    async remove(req, res, next){
+    }
+
+    async function remove(req, res, next){
         try{
             const isbn = req.params.isbn;
             await bookRepository.remove(isbn)
@@ -29,4 +30,7 @@ module.exports = {
             next(e);
         }
     }
+    
+    return {createOrUpdate, details, remove};
 };
+
