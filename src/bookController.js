@@ -19,5 +19,14 @@ module.exports = {
         } catch(e) {
             next(e);
         }
+    },
+    async remove(req, res, next){
+        try{
+            const isbn = req.params.isbn;
+            await bookRepository.remove(isbn)
+            res.status(204).end();
+        } catch (e){
+            next(e);
+        }
     }
 };

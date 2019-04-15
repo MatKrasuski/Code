@@ -30,5 +30,26 @@ describe('Book inventory', function () {
             isbn: "0123456789",
             description: "The ultimate JS book!"
         });
+    }),
+
+    it('delete book', async function () {
+        const request =  httpClient(app);
+        const isbn = 123;
+
+        // CREATE
+        await request
+            .post('/book')
+            .send({
+                title: "JavaScript in Action",
+                authors: ["James Smith", "Kate Donovan"],
+                isbn: isbn,
+                description: "The ultimate JS book!"
+            })
+            .set('Content-Type', 'application/json')
+            .expect(302);
+
+        await request
+        .delete('/book/' + isbn)
+        .expect(204);
     })
 });

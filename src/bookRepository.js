@@ -22,5 +22,9 @@ module.exports = {
             {isbn},
             { projection: {_id: 0} }
         );
+    },
+    async remove(isbn){
+        const books = await booksPromise;
+        books.deleteOne({isbn});
     }
 };
